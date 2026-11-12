@@ -102,6 +102,16 @@ if (window.performanceOptimizer) {
     window.performanceOptimizer.optimizeRendering(game);
 }
 
+// Inicializar render optimizer
+if (window.initRenderOptimizer) {
+    window.initRenderOptimizer(game);
+}
+
+// Inicializar asset loader
+if (window.initAssetLoader) {
+    window.initAssetLoader(game);
+}
+
 // Ajustar calidad según dispositivo
 if (window.adjustQuality) {
     window.adjustQuality();
