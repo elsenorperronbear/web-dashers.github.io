@@ -1,4 +1,11 @@
-// editable config stuff 
+/**
+ * Web Dashers Configuration
+ * Configuraciones globales y optimizaciones
+ */
+
+// ============================================
+// CONFIGURACIONES DE USUARIO
+// ============================================
 
 if (window.mainColor == null) {
   window.mainColor = parseInt(localStorage.getItem("iconMainColor") || "04FF00", 16);
@@ -178,4 +185,85 @@ function addImageToScene(scene, x, y, textureName) {
   } else {
     return null;
   }
+}
+
+// ============================================
+// CONFIGURACIONES DE OPTIMIZACIÓN
+// ============================================
+
+// Configuración de slopes (física mejorada)
+window.slopeReachGuard = true;
+window.slopeBackWall = true;
+window.slopeFlatCap = true;
+window.slopeSwingCap = 13;
+window.slopeTangentD = 0.42;
+
+// Configuración de rendimiento
+window.maxParticles = 500;
+window.enableGlow = true;
+window.useLowQualityMode = false;
+window.maxConcurrentLoads = 6;
+window.cacheVersion = '2.0.0';
+
+// Configuración de Swing Mode
+window.swingEnabled = true;
+window.swingGravity = 1.0;
+window.swingJumpForce = 0.6;
+
+// Configuración de colisiones
+window.collisionPrecision = 'high';
+window.hitboxDebug = false;
+
+// Configuración de audio
+window.maxAudioChannels = 8;
+window.audioPreload = true;
+
+// ============================================
+// FUNCIONES DE OPTIMIZACIÓN
+// ============================================
+
+/**
+ * Inicializa configuraciones de optimización
+ */
+window.initOptimizations = function() {
+    // Detectar si el dispositivo es móvil
+    window.isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    
+    // Ajustar configuraciones para móviles
+    if (window.isMobile) {
+        window.maxParticles = 200;
+        window.maxConcurrentLoads = 4;
+        window.useLowQualityMode = true;
+    }
+    
+    // Inicializar performance optimizer
+    if (window.performanceOptimizer) {
+        window.performanceOptimizer.initDB();
+    }
+    
+    // Inicializar cache manager
+    if (window.gameCache) {
+        window.gameCache.init();
+    }
+    
+    console.log('Optimizaciones inicializadas');
+};
+
+/**
+ * Ajusta la calidad según el rendimiento
+ */
+window.adjustQuality = function() {
+    if (window.isMobile || window.useLowQualityMode) {
+        // Reducir calidad para mejor rendimiento
+        if (window.game && window.game.renderer) {
+            window.game.renderer.antialias = false;
+        }
+    }
+};
+
+// Inicializar al cargar
+if (document.readyState === 'complete' || document.readyState === 'interactive') {
+    setTimeout(window.initOptimizations, 0);
+} else {
+    document.addEventListener('DOMContentLoaded', window.initOptimizations);
 }
